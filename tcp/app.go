@@ -114,27 +114,33 @@ func handleConnection(conn net.Conn) {
 }
 
 func getWhoamiResponse(conn net.Conn) string {
-	var response strings.Builder
+    var response strings.Builder
 
-	response.WriteString("Yo, skibidi bop bop, what's good, fam!\n")
-	response.WriteString("If you're clockin' these lines, your TCP hookup with the remote server is skibidi poppin', no cap, connection's straight fire.\n")
-	response.WriteString("Here's the drip on that link-up, bop bop:\n")
-	response.WriteString("\n")
+    response.WriteString("Yo, skibidi bop bop, what's good, fam!\n")
+    response.WriteString("If you're clockin' these lines, your TCP hookup with the remote server is skibidi poppin', no cap, connection's straight fire.\n")
+    response.WriteString("Here's the drip on that link-up, bop bop:\n")
+    response.WriteString("\n")
 
-	if name != "" {
-		response.WriteString(fmt.Sprintf("Name: %s\n", name))
-	}
+    if name != "" {
+        response.WriteString(fmt.Sprintf("Name: %s\n", name))
+    }
 
-	hostname, err := os.Hostname()
-	if err == nil {
-		response.WriteString(fmt.Sprintf("Hostname: %s\n", hostname))
-	}
+    hostname, err := os.Hostname()
+    if err == nil {
+        response.WriteString(fmt.Sprintf("Hostname: %s\n", hostname))
+    }
 
-	remoteAddr := conn.RemoteAddr().String()
-	response.WriteString(fmt.Sprintf("RemoteAddr: %s\n", remoteAddr))
-	response.WriteString(fmt.Sprintf("Time: %s\n", time.Now().Format(time.RFC1123)))
+    remoteAddr := conn.RemoteAddr().String()
+    response.WriteString(fmt.Sprintf("RemoteAddr: %s\n", remoteAddr))
+    response.WriteString(fmt.Sprintf("Time: %s\n", time.Now().Format(time.RFC1123)))
+    response.WriteString("\n")  // Adding a blank line before environment variables for readability
 
-	return response.String()
+    response.WriteString("Environment Variables, straight from the server's soul:\n")
+    for _, env := range os.Environ() {
+        response.WriteString(fmt.Sprintf("%s\n", env))
+    }
+
+    return response.String()
 }
 
 func parseSize(sizeStr string) (int64, error) {
