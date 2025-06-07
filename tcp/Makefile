@@ -1,6 +1,6 @@
 .PHONY: default check test build image
 
-IMAGE_NAME := teebow1e/whoami
+IMAGE_NAME := teebow1e/whoami-tcp
 
 default: check test build
 
